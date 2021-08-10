@@ -1,0 +1,42 @@
+<center>
+    <input
+        type="file"
+        accept="image/*"
+        onchange="loadFile(event)"/>
+    
+    <br><br>
+</center>
+
+<img
+    id="output"
+    style="
+        width: 100%;
+        height: auto;
+        image-rendering: pixelated;"
+    onclick="getPos(event)"/>
+
+<script>
+    var image = document.getElementById("output");
+
+    function loadFile(event) {
+        //Simply change the 'src' attribute of the <img> element to the selected file
+        image.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function getPos(event) {
+        //Calculate the scaling factor of the image
+        var xFactor = image.clientWidth / image.naturalWidth;
+        var yFactor = image.clientHeight / image.naturalHeight;
+
+        //Calculate coordinates in Matrix Based System
+        var matX = Math.floor((event.pageX - image.offsetLeft) / xFactor);
+        var matY = Math.floor((event.pageY - image.offsetTop) / yFactor);
+
+        //Calculate coordinates in Cartesian System
+        var cartX = matX;
+        var cartY = image.naturalHeight - matY - 1;
+
+        //Display the required info on screen as alert
+        alert("Matrix Coordinates : " + matX + ", " + matY + "\nCartesian Coordinates : " + cartX + ", " + cartY);
+    }
+</script>
